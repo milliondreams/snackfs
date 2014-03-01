@@ -16,20 +16,6 @@
  * limitations under the License.
  *
  */
-package com.tuplejump.snackfs.util
+package com.tuplejump.snackfs.cassandra.model
 
-import com.twitter.logging.{FileHandler, Level, LoggerFactory}
-
-object LogConfiguration {
-
-  val level = System.getenv("SNACKFS_LOG_LEVEL") match {
-    case "DEBUG" => Level.DEBUG
-    case "INFO" => Level.INFO
-    case "ERROR" => Level.ERROR
-    case "ALL" => Level.ALL
-    case "OFF" => Level.OFF
-    case _ => Level.ERROR
-  }
-  val config = new LoggerFactory("", Some(level), List(FileHandler("logs")), true)
-
-}
+case class GenericOpSuccess(){}

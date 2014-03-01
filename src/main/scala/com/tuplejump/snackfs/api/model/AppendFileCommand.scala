@@ -16,20 +16,27 @@
  * limitations under the License.
  *
  */
-package com.tuplejump.snackfs.util
+package com.tuplejump.snackfs.api.model
 
-import com.twitter.logging.{FileHandler, Level, LoggerFactory}
+import scala.concurrent.duration.FiniteDuration
+import java.io.IOException
+import org.apache.hadoop.fs.{FSDataOutputStream, Path}
+import org.apache.hadoop.util.Progressable
+import com.twitter.logging.Logger
+import com.tuplejump.snackfs.cassandra.partial.FileSystemStore
+import com.tuplejump.snackfs.api.partial.Command
 
-object LogConfiguration {
+object AppendFileCommand extends Command {
+  private lazy val log = Logger.get(getClass)
 
-  val level = System.getenv("SNACKFS_LOG_LEVEL") match {
-    case "DEBUG" => Level.DEBUG
-    case "INFO" => Level.INFO
-    case "ERROR" => Level.ERROR
-    case "ALL" => Level.ALL
-    case "OFF" => Level.OFF
-    case _ => Level.ERROR
+  def apply(store: FileSystemStore,
+            filePath: Path,
+            bufferSize: Int,
+            progress: Progressable,
+            atMost: FiniteDuration): FSDataOutputStream = {
+
+    val ex = new IOException("Appending to existing file is not supported.")
+    log.error(ex, "Failed to append to file %s as it is not supported", filePath)
+    throw ex
   }
-  val config = new LoggerFactory("", Some(level), List(FileHandler("logs")), true)
-
 }

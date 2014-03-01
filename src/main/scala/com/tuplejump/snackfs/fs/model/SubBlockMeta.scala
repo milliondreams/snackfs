@@ -16,20 +16,13 @@
  * limitations under the License.
  *
  */
-package com.tuplejump.snackfs.util
+package com.tuplejump.snackfs.fs.model
 
-import com.twitter.logging.{FileHandler, Level, LoggerFactory}
+import java.util.UUID
 
-object LogConfiguration {
-
-  val level = System.getenv("SNACKFS_LOG_LEVEL") match {
-    case "DEBUG" => Level.DEBUG
-    case "INFO" => Level.INFO
-    case "ERROR" => Level.ERROR
-    case "ALL" => Level.ALL
-    case "OFF" => Level.OFF
-    case _ => Level.ERROR
+case class SubBlockMeta(id:UUID,offset:Long,length:Long) {
+  override def toString= {
+    val result = "SubBlock["+(id,offset,length).toString()+"]"
+    result
   }
-  val config = new LoggerFactory("", Some(level), List(FileHandler("logs")), true)
-
 }

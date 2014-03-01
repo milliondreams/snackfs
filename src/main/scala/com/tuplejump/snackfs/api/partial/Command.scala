@@ -14,22 +14,9 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
-package com.tuplejump.snackfs.util
+package com.tuplejump.snackfs.api.partial
 
-import com.twitter.logging.{FileHandler, Level, LoggerFactory}
-
-object LogConfiguration {
-
-  val level = System.getenv("SNACKFS_LOG_LEVEL") match {
-    case "DEBUG" => Level.DEBUG
-    case "INFO" => Level.INFO
-    case "ERROR" => Level.ERROR
-    case "ALL" => Level.ALL
-    case "OFF" => Level.OFF
-    case _ => Level.ERROR
-  }
-  val config = new LoggerFactory("", Some(level), List(FileHandler("logs")), true)
+trait Command {
 
 }

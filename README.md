@@ -1,4 +1,4 @@
-#SnackFS
+# SnackFS
 
 SnackFS is our bite-sized, lightweight HDFS compatible FileSystem built over Cassandra.
 With it's unique fat driver design it requires no additional SysOps or setup on the Cassanndra Cluster. All you have to do is point to your Cassandra cluster and you are ready to go.
@@ -6,37 +6,56 @@ With it's unique fat driver design it requires no additional SysOps or setup on 
 As SnackFS was written as a dropin replacement for HDFS, your existing HDFS backed applications not only run as-is on SnackFS, but they also run faster!
 SnackFS cluster is also more resilient than a HDFS cluster as there is no SPOF like the NameNode.
 
-##Prerequisites
+## Prerequisites
 
 1. SBT : It can be set up from the instructions [here](http://www.scala-sbt.org/release/docs/Getting-Started/Setup.html#installing-sbt).
 
 2. Cassandra(v1.2.12) : Instructions can be found [here](http://wiki.apache.org/cassandra/GettingStarted). An easier alternative would be using [CCM](https://github.com/pcmanus/ccm)
 
-##Using SnackFS
+## Using SnackFS
 
-###Use the binary
+### Use the binary
 
-* You can download the SnackFS distribution from here -
-####TODO
+* You can download the SnackFS distribution built with [Scala 2.9.x here](http://bit.ly/1eKV1ae) and [Scala 2.10.x here](http://bit.ly/1jI7vVw)
 
 * To add SnackFS to your SBT project use,
-####TODO
+
+For SBT
+```scala
+"com.tuplejump" %% "snackfs" % "0.6.1-EA"
+```
 
 * To add SnackFS to your Maven project use,
-####TODO
+with Scala 2.9.3 use,
 
-###Build from Source
+```xml
+<dependency>
+  <groupId>com.tuplejump</groupId>
+  <artifactId>snackfs_2.9.3</artifactId>
+  <version>0.6.1-EA</version>
+</dependency>
+```
 
-1. Checkout the source from http://github.com/tuplejump/snackfs or the_grand_central branch in http://githube.com/tuplejump/calliope
+And with Scala 2.10.3,
+```xml
+<dependency>
+  <groupId>com.tuplejump</groupId>
+  <artifactId>snackfs_2.10</artifactId>
+  <version>0.6.1-EA</version>
+</dependency>
+```
+
+### Build from Source
+
+1. Checkout the source from http://github.com/tuplejump/snackfs
 
 2. To build SnackFS distribution run sbt's dist command in the project directory
 ```
 [snackfs]$ sbt dist
 ```
 
-   This will result in a "snackfs-{version}.zip" file in the "target" directory of "snackfs".
-   Extract "snackfs-{version}.zip" at desired location and grant user permissions
-   to read, write and execute the script "snackfs" located in bin directory
+   This will result in a "snackfs-{version}.tgz" file in the "target" directory of "snackfs".
+   Extract "snackfs-{version}.tgz" to the desired location.
 
 3. Start Cassandra (default setup for snackfs assumes its a cluster with 3 nodes)
 
@@ -62,14 +81,14 @@ SnackFS cluster is also more resilient than a HDFS cluster as there is no SPOF l
 1. Setup Apache Hadoop v1.0.4.(http://hadoop.apache.org/#Getting+Started). The base directory will be referred as 'hadoop-1.0.4' in the following steps.
 
 2. Execute the following commands in the snackfs project directory.
-```
+```2.
 [snackfs]$ sbt package
 ```
 
-   This will result in a "snackfs_2.9.3-0.1-SNAPSHOT.jar" file in the "target/scala-2.9.3" directory of "snackfs".
+   This will result in a "snackfs_&lt;scala_version&gt;-&lt;version&gt;.jar" file in the "target/scala-&lt;scala_version&gt;" directory of "snackfs".
    Copy the jar to 'hadoop-1.0.4/lib'.
 
-3. Copy all the jars in snackfs/lib_managed and scala-library-2.9.3.jar
+3. Copy all the jars in snackfs/lib_managed and scala-library-&lt;scala_version&gt;.jar
    (located at '~/.ivy2/cache/org.scala-lang/scala-library/jars') to 'hadoop-1.0.4/lib'.
 
 4. Copy snackfs/src/main/resources/core-site.xml to 'hadoop-1.0.4/conf'
@@ -82,7 +101,22 @@ SnackFS cluster is also more resilient than a HDFS cluster as there is no SPOF l
 ```
 
 ###To configure logging,
-If you want your logs in a File, update LogConfiguration.config like below
+
+#### In System Environment
+
+Set SNACKFS_LOG_LEVEL in the Shell to one of the following Values
+
+* DEBUG
+* INFO
+* ERROR
+* ALL
+* OFF
+
+Default value if not set if ERROR
+
+####In code (for further control/tuning)
+If you want your logs in a File, update LogConfiguration.scala like below
+
 ```scala
 val config = new LoggerFactory("", Option(Level.ALL), List(FileHandler("logs")), true)
 ```
